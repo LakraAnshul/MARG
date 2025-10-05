@@ -1,123 +1,160 @@
+# M.A.R.G. - Machine-learning Assisted Road Guidance
 
-# Product link: https://sadakapp.streamlit.app/
-
-# Traffic Flow Optimization and Congestion Management Tool - S.A.D.A.K
-
-This repository contains our solution for the Karnataka State Police Hackathon: "Datathon"
 ![App Screenshot](assets/cover.png)
-## Problem
 
-Urban traffic congestion leads to economic losses, environmental impact, and decreased quality of life. Traditional traffic management methods are often limited in effectiveness.  
+## Overview
 
-- Sub-Problem Statement 1 - Evaluating the traffic congestion shown by map engine services against the calculated actual congestion using the Drone.
-- Sub-Problem Statement 2 - Evaluating various junctions after optimal signal time is acheived.
-- Sub-Problem Statement 3 - Detecting various bottlenecks and generating alerts in regard to them.
+M.A.R.G. is an intelligent traffic management system that leverages computer vision and machine learning to analyze urban traffic congestion, detect bottlenecks, and optimize traffic flow. Our solution provides real-time monitoring and actionable insights for traffic authorities.
+
+**Demo Credentials:**
+- Username: `ABCD12`
+- Password: `ABCD12`
+- **Product Link:** [https://marg-ai.streamlit.app/](https://marg-ai.streamlit.app/)
+
+## Problem Statement
+
+Urban traffic congestion leads to significant economic losses, environmental impact, and decreased quality of life. Traditional traffic management methods often fall short in effectiveness and real-time responsiveness.
+
+### Key Challenges:
+- **Sub-Problem 1:** Evaluating traffic congestion shown by map engine services against actual congestion measured via drone footage
+- **Sub-Problem 2:** Optimizing and evaluating junction performance with optimal signal timing
+- **Sub-Problem 3:** Detecting traffic bottlenecks and generating real-time alerts
 
 ## Solution
 
-The proposed solution is an object detection-based system using computer vision components.We leverage pre-trained models like YOLOv8 and supervision.These models can automatically detect and geo-reference bottlenecks and road congestions from images captured by the onboard cameras in real time, providing actionable insights for smooth and optimized traffic flow.
+We developed an object detection-based system using advanced computer vision components. By leveraging pre-trained models like YOLOv8 and supervision toolkit, our system can automatically detect and geo-reference bottlenecks and road congestions from images captured by onboard cameras in real-time.
 
-![image](https://github.com/Dev-on-go/S.A.D.A.K/assets/120119971/120599b9-5b57-4677-924e-7a0a3f4d21ef)
-*Several Modules in this proposed solution still need to be worked upon
+![System Architecture](./assets/architecture.png)
 
-## Setup
-- **Local Machine** :
-  Clone the repository on to you local machine.
-  Run the command in cmd -
-  ```
-  pip install -r requirements.txt
-  ```
-  The above ensure all the required dependecies are installed.
+*Note: Several modules in this proposed solution are still under active development*
 
-  Followed by -
-  ```
-  streamlit run app.py
-  ```
+## Technologies Used
 
-  **In helper.py there's a function known as drawzones, having the repository cloned on local machine allows you to access it, just open helper.py and search for enchroachment function and uncomment the drawzones function.**
-  
-  
-- **Web** :
-  Just vist the product link mentioned at the start of the repository.
+- **Computer Vision:** YOLOv8, OpenCV, Supervision
+- **Backend Framework:** Streamlit, Python
+- **Machine Learning:** PyTorch, Ultralytics
+- **Image Processing:** PIL, NumPy
+- **Video Processing:** FFmpeg, OpenCV
+- **Development Tools:** Git, Virtual Environment
 
-## Functions
-- **Navigation** :
-  The page consists of a main section along with a side bar, it is in this side bar that you can access numerous facilities provided by the product:
-  - **Image Detection** - Detection of various objects in the image provide. This can be further extended to track number plates of various violators.
-  - **Video Detection** - Detection of various objects in past videos to reconfirm claims made during real time footage.
-  - **Webcam Detection** - This is a test feature to demonstrate the real time object detection capibilities of the project.
-  - **RTSP Detection and Classification** - This takes in input as rtsp url of the source camera provided and provide detection analysis in real time.
-  - **Youtube Detection and Classification** - Due to lack of rtsp urls we have created a feature to demonstrate the approach, just type in the source url of the youtube video you wish to see and it'll provide a detection analysis for the same in real time.
-  - **Encroachment Identification and Alerts** - Integrating a custom trained model specificall on UAV imagae datasets and Indian vehicle dataset, the model identifies enchroachment and potential bottle necks in traffic and generate alerts to alert the respective authorities about the same.
-  - **Junction Evaluation Dataset Generator**
-  - **Junction Evaluator** - It evaluates the performance of the junction once optimal signal time is acheived.
-  - **Benchmarking** - It evaluates the traffic congestion shown by map engine services against the calculated actual congestion using the drone to bring into perspective the accuracy of the maps.
+## Setup Instructions
 
- 
-  
+### Prerequisites
+- Python 3.10
+- pip package manager
 
-## Screenshots
+### Installation Steps
 
-### Showing Image Detection
-Images can have various objects detected within themselves with varying level of confidence, we can set the confidence level and look at the detection results.
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd MARG
+   ```
 
-#### Selecting an image
-![image](assets/pre.png)
+2. **Create and activate virtual environment**
+   ```bash
+   # Create virtual environment with Python 3.10
+   python3.10 -m venv marg_env
 
-#### Result
+   # Activate virtual environment
+   # On Windows:
+   marg_env\Scripts\activate
+   # On macOS/Linux:
+   source marg_env/bin/activate
+   ```
 
-![image](assets/result.png)
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-### Showing Video Detection
-Videos can have various objects detected within themselves with varying level of confidence, we can set the confidence level and look at the detection results.
-#### Selecting a footage
-![image](assets/vid_pre.png)
+4. **Run the application**
+   ```bash
+   streamlit run app.py
+   ```
 
+### Additional Configuration
 
-#### Result
-https://github.com/that-coding-kid/deploy/assets/120120491/f07bb3d4-3d74-468d-ac82-2682d6e00eda
+For accessing the drawzones functionality in helper.py:
+1. Open `helper.py`
+2. Locate the `encroachment` function
+3. Uncomment the `drawzones` function as needed
 
+## Core Features
 
-### Webcam Detection
-This is a test feature to demonstrate the real time object detection capibilities of the project.
+### 🖼️ Image Detection
+- Detect various objects in uploaded images with configurable confidence levels
+- Capable of extending to license plate recognition for traffic violators
 
-https://github.com/that-coding-kid/deploy/assets/120120491/f425f00e-8ba8-42fe-a59d-5dd318c52270
+### 🎥 Video Detection
+- Analyze past video footage to verify claims and incidents
+- Object detection with adjustable confidence thresholds
 
+### 🌐 Real-time Detection
+- **Webcam Detection:** Test feature demonstrating real-time object detection capabilities
+- **RTSP Detection:** Real-time analysis from RTSP camera streams
+- **YouTube Detection:** Process YouTube videos for demonstration purposes
 
+### 🚨 Traffic Management
+- **Encroachment Identification:** Custom-trained model on UAV and Indian vehicle datasets to identify bottlenecks
+- **Real-time Alerts:** Automated notifications to authorities for traffic violations and congestion
 
+### 📊 Junction Analysis
+- **Dataset Generator:** Create training datasets from junction footage
+- **Junction Evaluator:** Assess junction performance after optimal signal timing implementation
 
-### RTSP Detection
-This takes in input as rtsp url of the source camera provided and provide detection analysis in real time.
+### 📈 Benchmarking
+- Compare map engine congestion data against actual drone-calculated congestion
+- Provide accuracy assessment of commercial mapping services
 
-#### Result
+## Feature Demonstrations
 
+### Image Detection
+**Input Selection:**
+![Image Selection](assets/pre.png)
 
-https://github.com/that-coding-kid/deploy/assets/120120491/85036508-7631-4531-9ad7-c591140f85df
+**Detection Results:**
+![Detection Results](assets/result.png)
 
+### Video Detection
+**Footage Selection:**
+![Video Selection](assets/vid_pre.png)
 
+**Analysis Results:**
+![Video Analysis](link)
 
-### Youtube Detection
-We have created a feature to demonstrate the approach, just type in the source url of the youtube video you wish to see and it'll provide a detection analysis for the same in real time. This works similar to rtsp feature.
+### Real-time Webcam Detection
+![Webcam Detection](link)
 
+### RTSP Stream Processing
+![RTSP Detection](link)
 
-### Bottleneck Dectection
-Only the vehicles and other bottlenecks inside the marked areas are tracked, and a wait-time period is generated for them. If a vehicles stays within the marked area for longer than the permissible duration an alert is genrated for communicationg the control room.
+### Bottleneck Detection & Alerts
+- Tracks vehicles within marked zones
+- Calculates wait-time periods
+- Generates alerts for vehicles exceeding permissible duration
 
-#### Result
+![Bottleneck Detection](link)
 
-https://github.com/that-coding-kid/deploy/assets/120120491/f79faf0a-8d47-4dbe-8f6b-b6753c49196c
+### Traffic Density Estimation
+**Image-based Analysis:**
+![Traffic Density Image](link)
 
+**Video-based Analysis:**
+![Traffic Density Video](link)
 
-### Showing Real Time annotation for Traffic Density Estimation and congestion Evaluation
-Videos are divided into further subclips which are used for dataset creation.  
-We have limited the annotations to vehicles to limit the chances of False positives, this can be improved when scaled further.
+## Navigation
 
-### Result
-#### Image
-![image](https://github.com/Dev-on-go/S.A.D.A.K/assets/120119971/c81c8850-1a2f-4778-9b2e-720754362698)
-#### Video
-https://github.com/that-coding-kid/deploy/assets/120120491/578aae1d-c878-41b0-9d5d-5b58823c25f0
+The application features a main content area with a comprehensive sidebar for accessing all functionalities. The sidebar organizes features into logical categories for easy navigation and workflow management.
 
+## Future Enhancements
 
+- Enhanced model accuracy with expanded training datasets
+- Integration with more traffic management systems
+- Advanced predictive analytics for traffic flow optimization
+- Mobile application for field personnel
+- API development for third-party integrations
 
-# MARG
+---
+
+**Note:** This project is under active development. Some features may be experimental and subject to change.

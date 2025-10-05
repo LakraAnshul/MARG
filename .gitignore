@@ -2,3 +2,4 @@
 ./venv
 .streamlit
 */__pycache__
+_secret_auth_.json
