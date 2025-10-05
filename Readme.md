@@ -1,15 +1,16 @@
 # M.A.R.G. - Machine-learning Assisted Road Guidance
 
+### Prototype Link: [https://marg-ai.streamlit.app/](https://marg-ai.streamlit.app/)
+**Demo Credentials:**
+- Username: `ABCD12`
+- Password: `ABCD12`
+
 ![App Screenshot](assets/cover.png)
 
 ## Overview
 
 M.A.R.G. is an intelligent traffic management system that leverages computer vision and machine learning to analyze urban traffic congestion, detect bottlenecks, and optimize traffic flow. Our solution provides real-time monitoring and actionable insights for traffic authorities.
 
-**Demo Credentials:**
-- Username: `ABCD12`
-- Password: `ABCD12`
-- **Product Link:** [https://marg-ai.streamlit.app/](https://marg-ai.streamlit.app/)
 
 ## Problem Statement
 
