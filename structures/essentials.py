@@ -271,7 +271,7 @@ def drop(path_csv, csv_list):
     df.drop_duplicates(subset=csv_list)
     df.to_csv(path_csv, index= False)
 
-def send_ping( email: str, file: str, company_name: str = "S.A.D.A.K"):
+def send_ping( email: str, file: str, company_name: str = "M.A.R.G."):
     #if(auth_token == st.secrets["CRYPTO_KEY"]):
         client = Courier(auth_token = st.secrets["COURIER_API_KEY"])
         resp = client.send_message(

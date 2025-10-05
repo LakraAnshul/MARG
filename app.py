@@ -22,7 +22,7 @@ language = st.sidebar.selectbox('Language: ', ["English", "ಕನ್ನಡ", "�
 language_dict = {"English":"en","हिंदी":"hi","ಕನ್ನಡ":"kn","অসমীয়া":"as","বাংলা":"bn","ગુજરાતી":"gu","മലയാളം":"ml","मराठी":"mr","தமிழ்":"ta","తెలుగు":"te","اردو":"ur","ਪੰਜਾਬੀ":"pa","संस्कृत":"sanskrit","भोजपुरी":"bhojpuri","डोगरी":"dogri","मैथिली":"maithili","Mizo tawng":"mizo","Manipuri":"manipuri"}
 st.title(COMPONENTS[language_dict[language]]["TITLE"])
 __login__obj = __login__(auth_token = "pk_prod_PVY78PYNS84M1SPFKZSCHD1D32BS", 
-                    company_name = "S.A.D.A.K",
+                    company_name = "M.A.R.G.",
                     width = 200, height = 250, 
                     logout_button_name = COMPONENTS[language_dict[language]]["LOGOUT"], hide_menu_bool = False, 
                     hide_footer_bool = False, 
