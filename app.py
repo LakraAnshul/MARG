@@ -18,9 +18,130 @@ st.set_page_config(
         initial_sidebar_state="expanded"
     ) 
 
-language = st.sidebar.selectbox('Language: ', ["English", "ಕನ್ನಡ", "हिंदी", "বাংলা", "ગુજરાતી","മലയാളം","मराठी","தமிழ்","తెలుగు","اردو","ਪੰਜਾਬੀ","संस्कृत", "অসমীয়া","भोजपुरी","डोगरी","मैथिली","Mizo tawng","Manipuri",])
-language_dict = {"English":"en","हिंदी":"hi","ಕನ್ನಡ":"kn","অসমীয়া":"as","বাংলা":"bn","ગુજરાતી":"gu","മലയാളം":"ml","मराठी":"mr","தமிழ்":"ta","తెలుగు":"te","اردو":"ur","ਪੰਜਾਬੀ":"pa","संस्कृत":"sanskrit","भोजपुरी":"bhojpuri","डोगरी":"dogri","मैथिली":"maithili","Mizo tawng":"mizo","Manipuri":"manipuri"}
-st.title(COMPONENTS[language_dict[language]]["TITLE"])
+# Sidebar branding (centered, bold)
+with st.sidebar:
+    st.markdown(
+        """
+        <div style="width:100%;text-align:center;margin:6px 0 10px 0;">
+          <span style="font-family:'Arvo',serif;font-weight:800;letter-spacing:2px;font-size:18px;background: linear-gradient(135deg, #a7f3d0, #22c55e); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 2px 6px rgba(34,197,94,0.22);">M.A.R.G.</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+# Global CSS and theming (Arvo, dark/green gradient, green accent, glassmorphism)
+st.markdown("""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+:root {
+  --bg-0: #0b0b0c;
+  --bg-1: #121314;
+  --bg-2: #151718;
+  --fg: #e9edf1;
+  --muted: #a8b0b8;
+  --accent: #22c55e; /* green */
+  --accent-contrast: #052e16;
+  --card: rgba(255,255,255,0.05);
+  --border: rgba(255,255,255,0.24);
+  --shadow: 0 12px 40px rgba(0,0,0,0.32);
+  --grad-1: #000000;
+  --grad-2: #0a2a0f;
+  --grad-3: #0f3a18;
+}
+
+html, body, [class^="css"], .main {
+  font-family: 'Arvo', serif !important;
+  color: var(--fg) !important;
+  background: radial-gradient(1000px 800px at 10% 0%, var(--grad-2), transparent 60%),
+              radial-gradient(1200px 900px at 90% 10%, var(--grad-3), transparent 60%),
+              linear-gradient(160deg, var(--grad-1), var(--bg-0) 60%, var(--bg-2));
+  background-attachment: fixed !important;
+}
+
+/* Reduce general vertical whitespace */
+h1, h2, h3 { margin: 0.35rem 0 0.5rem 0; }
+section { margin: 0; padding: 0; }
+
+/* Links */
+a { color: var(--accent) !important; text-decoration-color: rgba(34,197,94,0.5); }
+
+/* Buttons */
+.stButton button, .stDownloadButton button {
+  background: linear-gradient(135deg, var(--accent), #16a34a);
+  border: none; color: #ffffff; padding: 0.55rem 0.95rem; border-radius: 12px;
+  box-shadow: var(--shadow);
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 200ms ease;
+}
+.stButton button:hover, .stDownloadButton button:hover { transform: translateY(-1px); filter: brightness(1.05); }
+
+/* Sidebar glass + green accents */
+section[data-testid="stSidebar"] > div:first-child {
+  background: linear-gradient(180deg, rgba(5, 20, 10, 0.65), rgba(5, 20, 10, 0.25));
+  border-right: 1px solid var(--border);
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+}
+section[data-testid="stSidebar"] .stButton button,
+section[data-testid="stSidebar"] .stDownloadButton button { background: linear-gradient(135deg, var(--accent), #16a34a); }
+section[data-testid="stSidebar"] .stSelectbox div[data-baseweb],
+section[data-testid="stSidebar"] .stRadio > div,
+section[data-testid="stSidebar"] .stCheckbox > div { background: var(--card); border: 1px solid var(--border); border-radius: 12px; }
+section[data-testid="stSidebar"] .stTextInput input,
+section[data-testid="stSidebar"] .stNumberInput input,
+section[data-testid="stSidebar"] .stTextArea textarea { background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--fg); border-radius: 12px; }
+section[data-testid="stSidebar"] .stSlider > div > div > div[role=slider] { background: var(--accent) !important; }
+section[data-testid="stSidebar"] .stSlider > div > div > div:nth-of-type(2) { background: var(--accent) !important; }
+
+/* Force green accents for form controls globally */
+:root { accent-color: var(--accent); }
+input[type="checkbox"], input[type="radio"], select, textarea { accent-color: var(--accent) !important; }
+.stCheckbox input, .stRadio input { accent-color: var(--accent) !important; }
+.stTextInput input:focus, .stNumberInput input:focus, .stTextArea textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+/* Glassmorphism card */
+.glass-card {
+  width: 240px; height: 360px; background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.5),
+              inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+              inset 0 0 0px 0px rgba(255, 255, 255, 0);
+  position: relative; overflow: hidden;
+}
+.glass-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent); }
+.glass-card::after { content: ''; position: absolute; top: 0; left: 0; width: 1px; height: 100%; background: linear-gradient(180deg, rgba(255,255,255,0.8), transparent, rgba(255,255,255,0.3)); }
+
+/* Flexible card variant */
+.glass-flex { width: 100%; height: auto; padding: 18px; border-radius: 20px; }
+
+/* Hero */
+.hero { text-align: center; padding: 18px 12px; margin-bottom: 12px; }
+.hero-title { font-weight: 800; letter-spacing: 3px; text-shadow: 0 6px 24px rgba(0,0,0,0.45); }
+.hero-sub { color: var(--muted); margin-top: 4px; }
+
+@keyframes float { 0% { transform: translateY(0); } 50% { transform: translateY(-4px); } 100% { transform: translateY(0); } }
+</style>
+""", unsafe_allow_html=True)
+
+language = st.sidebar.selectbox('Language: ', ["English", "ಕನ್ನಡ", "हिंदी", "বাংলা", "ગુજરાતી","മലയാളം","मराठी","தமிழ்","తెలుగు","اردو","ਪੰਜਾਬੀ","संस्कृत", "অসমীয়া","भोजपुरी","डोगरी","मैथिली","Mizo tawng","Manipuri",])
+language_dict = {"English":"en","हिंदी":"hi","ಕನ್ನಡ":"kn","অসমীয়া":"as","বাংলা":"bn","ગુજરાતી":"gu","മലയാളം":"ml","मराठी":"mr","தமிழ்":"ta","తెలుగు":"te","اردو":"ur","ਪੰਜਾਬੀ":"pa","संस्कृत":"sanskrit","भोजपुरी":"bhojpuri","डोगरी":"dogri","मैथिली":"maithili","Mizo tawng":"mizo","Manipuri":"manipuri"}
+
+# Hero with bold centered M.A.R.G.
+st.markdown(
+    """
+    <div class="glass-card glass-flex hero" style="animation: float 5s ease-in-out infinite;">
+      <h1 class="hero-title" style="font-size: clamp(28px, 5vw, 56px); margin: 0;">
+        <span style="background: linear-gradient(135deg, #ffffff, #dcdcdc 60%); -webkit-background-clip: text; background-clip: text; color: transparent;">
+          <b>M.A.R.G.</b>
+        </span>
+      </h1>
+      <div class="hero-sub">Modern Analytics for Road Guidance</div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 __login__obj = __login__(auth_token = "pk_prod_PVY78PYNS84M1SPFKZSCHD1D32BS", 
                     company_name = "M.A.R.G.",
                     width = 200, height = 250, 
