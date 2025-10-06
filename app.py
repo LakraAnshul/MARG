@@ -13,7 +13,7 @@ from locales.settings_languages import COMPONENTS
 # Setting page layout
 st.set_page_config(
         page_title="M.A.R.G.",
-        page_icon="🤖",
+        page_icon="🚗",
         layout="wide",
         initial_sidebar_state="expanded"
     ) 
