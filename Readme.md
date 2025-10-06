@@ -111,16 +111,10 @@ For accessing the drawzones functionality in helper.py:
 ## Feature Demonstrations
 
 ### Image Detection
-**Input Selection:**
-![Image Selection](assets/pre.png)
-
 **Detection Results:**
 ![Detection Results](assets/result.png)
 
 ### Video Detection
-**Footage Selection:**
-![Video Selection](assets/vid_pre.png)
-
 **Analysis Results:**
 ![Video Analysis](link)
 
