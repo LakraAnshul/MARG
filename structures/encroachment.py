@@ -6,7 +6,7 @@ import cv2
 import supervision as sv
 
 
-import settings
+import streamlit
 from locales.settings_languages import COMPONENTS
 from typing import Any, Optional, Tuple, Dict, Iterable, List, Set
 
