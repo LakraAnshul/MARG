@@ -20,22 +20,11 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# Sidebar branding (centered, bold)
-with st.sidebar:
-    st.markdown(
-        """
-        <div style="width:100%;text-align:center;margin:6px 0 10px 0;">
-          <span style="font-family:'Arvo',serif;font-weight:800;letter-spacing:2px;font-size:18px;background: linear-gradient(135deg, #a7f3d0, #22c55e); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 2px 6px rgba(34,197,94,0.22);">M.A.R.G.</span>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
 # Global CSS and theming (Arvo, dark/green gradient, green accent, glassmorphism)
 st.markdown(
     """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;0,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 :root {
   --bg-0: #0b0b0c;
@@ -87,14 +76,37 @@ section[data-testid="stSidebar"] > div:first-child {
 }
 section[data-testid="stSidebar"] .stButton button,
 section[data-testid="stSidebar"] .stDownloadButton button { background: linear-gradient(135deg, var(--accent), #16a34a); }
-section[data-testid="stSidebar"] .stSelectbox div[data-baseweb],
+
+/* REMOVING BORDER AROUND SELECTBOX AND RADIO FOR A CLEANER LOOK */
+/* Targeting selectbox and radio containers inside the sidebar to remove the border */
+section[data-testid="stSidebar"] .stSelectbox > div[data-baseweb],
 section[data-testid="stSidebar"] .stRadio > div,
-section[data-testid="stSidebar"] .stCheckbox > div { background: var(--card); border: 1px solid var(--border); border-radius: 12px; }
+section[data-testid="stSidebar"] .stCheckbox > div {
+    background: var(--card);
+    border: none !important; /* Force removal of border */
+    border-radius: 12px;
+    padding: 4px;
+}
+
+/* INPUT/TEXTAREA styling */
 section[data-testid="stSidebar"] .stTextInput input,
 section[data-testid="stSidebar"] .stNumberInput input,
-section[data-testid="stSidebar"] .stTextArea textarea { background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--fg); border-radius: 12px; }
-section[data-testid="stSidebar"] .stSlider > div > div > div[role=slider] { background: var(--accent) !important; }
-section[data-testid="stSidebar"] .stSlider > div > div > div:nth-of-type(2) { background: var(--accent) !important; }
+section[data-testid="stSidebar"] .stTextArea textarea {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    border-radius: 12px;
+}
+
+/* SLIDER TRACK AND HANDLE TO GREEN */
+section[data-testid="stSidebar"] .stSlider > div > div > div[role=slider] { background: var(--accent) !important; } /* Handle */
+section[data-testid="stSidebar"] .stSlider > div > div > div:nth-of-type(2) { background: var(--accent) !important; } /* Track (filled portion) */
+
+/* FIX FOR 100% HIGHLIGHT - Target the internal bar that might be using the accent color */
+section[data-testid="stSidebar"] .stSlider > div > div > div > div:nth-of-type(2) {
+    background: transparent !important; /* Ensures the percentage tooltip is transparent */
+}
+
 
 /* Force green accents for form controls globally */
 :root { accent-color: var(--accent); }
@@ -130,6 +142,20 @@ input[type="checkbox"], input[type="radio"], select, textarea { accent-color: va
     unsafe_allow_html=True,
 )
 
+# --- SIDEBAR CONTENT START ---
+
+# 1. Sidebar branding (centered, bold) - Increased font size (24px)
+with st.sidebar:
+    st.markdown(
+        """
+        <div style="width:100%;text-align:center;margin:6px 0 15px 0;">
+          <span style="font-family:'Arvo',serif;font-weight:800;letter-spacing:2px;font-size:24px;background: linear-gradient(135deg, #a7f3d0, #22c55e); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 2px 6px rgba(34,197,94,0.22);">M.A.R.G.</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+# 2. Language Selection (Top)
 language = st.sidebar.selectbox(
     "Language: ",
     [
@@ -139,12 +165,12 @@ language = st.sidebar.selectbox(
         "বাংলা",
         "ગુજરાતી",
         "മലയാളം",
-        "मराठी",
+        "മराठी",
         "தமிழ்",
         "తెలుగు",
-        "اردু",
+        "اردو",
         "ਪੰਜਾਬੀ",
-        "संस्कृत",
+        "സംസ്കൃത",
         "অসমীয়া",
         "भोजपुरी",
         "डोगरी",
@@ -164,17 +190,17 @@ language_dict = {
     "മराठी": "mr",
     "தமிழ்": "ta",
     "తెలుగు": "te",
-    "اردু": "ur",
+    "اردו": "ur",
     "ਪੰਜਾਬੀ": "pa",
-    "संस्कृत": "sanskrit",
+    "സംസ്കൃത": "sanskrit",
     "भोजपुरी": "bhojpuri",
-    "डोगरी": "dogri",
+    "डോഗਰੀ": "dogri",
     "मैथिली": "maithili",
     "Mizo tawng": "mizo",
     "Manipuri": "manipuri",
 }
 
-# Hero with bold centered M.A.R.G.
+# Main App Header (outside sidebar)
 st.markdown(
     """
     <div class="glass-card glass-flex hero" style="animation: float 5s ease-in-out infinite;">
@@ -188,6 +214,8 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
+
+# Login UI initialization
 __login__obj = __login__(
     auth_token="pk_prod_PVY78PYNS84M1SPFKZSCHD1D32BS",
     company_name="M.A.R.G.",
@@ -204,12 +232,13 @@ LOGGED_IN = __login__obj.build_login_ui()
 
 
 if LOGGED_IN == True:
-    # Main page heading
-    # Sidebar
-    st.sidebar.header(COMPONENTS[language_dict[language]]["CONFIGURATION"])
-    helper.startup()
+    st.sidebar.markdown("---")  # Separator
 
-    # --- Model Options: Using selectbox (dropdown) instead of radio ---
+    # 3. Model Configuration Group (Image/Video Config)
+    st.sidebar.header(COMPONENTS[language_dict[language]]["CONFIGURATION"])
+    helper.startup()  # Assuming this is a necessary startup call
+
+    # Model Options: Using selectbox (dropdown)
     model_options = [
         COMPONENTS[language_dict[language]]["DETECTION"],
         COMPONENTS[language_dict[language]]["SEGMENTATION"],
@@ -217,8 +246,8 @@ if LOGGED_IN == True:
     model_type = st.sidebar.selectbox(
         COMPONENTS[language_dict[language]]["MODEL_TYPE"], options=model_options
     )
-    # ------------------------------------------------------------------
 
+    # Confidence Slider
     confidence = (
         float(
             st.sidebar.slider(
@@ -241,9 +270,12 @@ if LOGGED_IN == True:
         st.error(COMPONENTS[language_dict[language]]["LOAD_ERROR"] + str(model_path))
         st.error(ex)
 
+    st.sidebar.markdown("---")  # Separator
+
+    # 4. Source/Content Configuration Group (Configuration)
     st.sidebar.header(COMPONENTS[language_dict[language]]["CONFIG_SUBTITLE"])
 
-    # --- Source Selection: Using selectbox (dropdown) instead of radio ---
+    # Source Selection: Using selectbox (dropdown)
     source_options = [
         COMPONENTS[language_dict[language]]["IMAGE"],
         COMPONENTS[language_dict[language]]["VIDEO"],
@@ -258,7 +290,6 @@ if LOGGED_IN == True:
     source_radio = st.sidebar.selectbox(
         COMPONENTS[language_dict[language]]["SELECT_SOURCE"], options=source_options
     )
-    # --------------------------------------------------------------------
 
     source_img = None
     # If image is selected
