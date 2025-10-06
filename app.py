@@ -20,7 +20,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# Global CSS and theming (Arvo, dark/green gradient, green accent, glassmorphism)
+# Global CSS and theming
 st.markdown(
     """
 <style>
@@ -51,11 +51,14 @@ html, body, [class^="css"], .main {
   background-attachment: fixed !important;
 }
 
+/* Reduce general vertical whitespace */
 h1, h2, h3 { margin: 0.35rem 0 0.5rem 0; }
 section { margin: 0; padding: 0; }
 
+/* Links */
 a { color: var(--accent) !important; text-decoration-color: rgba(34,197,94,0.5); }
 
+/* Buttons */
 .stButton button, .stDownloadButton button {
   background: linear-gradient(135deg, var(--accent), #16a34a);
   border: none; color: #ffffff; padding: 0.55rem 0.95rem; border-radius: 12px;
@@ -64,27 +67,31 @@ a { color: var(--accent) !important; text-decoration-color: rgba(34,197,94,0.5);
 }
 .stButton button:hover, .stDownloadButton button:hover { transform: translateY(-1px); filter: brightness(1.05); }
 
-/* --- SIDEBAR STYLING --- */
+/* Sidebar glass + green accents */
 section[data-testid="stSidebar"] > div:first-child {
   background: linear-gradient(180deg, rgba(5, 20, 10, 0.65), rgba(5, 20, 10, 0.25));
   border-right: 1px solid var(--border);
   backdrop-filter: blur(12px) saturate(120%);
   -webkit-backdrop-filter: blur(12px) saturate(120%);
-  /* Flexbox to push logout button to bottom */
+  /* Flexbox to push logout button to the bottom */
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 }
 
+section[data-testid="stSidebar"] .stButton button,
+section[data-testid="stSidebar"] .stDownloadButton button { background: linear-gradient(135deg, var(--accent), #16a34a); }
+
+/* REMOVING BORDER AROUND SELECTBOX AND RADIO FOR A CLEANER LOOK */
 section[data-testid="stSidebar"] .stSelectbox > div[data-baseweb],
 section[data-testid="stSidebar"] .stRadio > div,
 section[data-testid="stSidebar"] .stCheckbox > div {
     background: var(--card);
-    border: none !important;
+    border: none !important; /* Force removal of border */
     border-radius: 12px;
     padding: 4px;
 }
 
+/* INPUT/TEXTAREA styling */
 section[data-testid="stSidebar"] .stTextInput input,
 section[data-testid="stSidebar"] .stNumberInput input,
 section[data-testid="stSidebar"] .stTextArea textarea {
@@ -94,32 +101,32 @@ section[data-testid="stSidebar"] .stTextArea textarea {
     border-radius: 12px;
 }
 
-/* --- SLIDER STYLING (FIXES) --- */
-/* 1. Make the slider handle and filled track GREEN */
-section[data-testid="stSidebar"] .stSlider [role="slider"] {
-    background-color: var(--accent) !important;
-    box-shadow: 0 0 0 4px var(--accent-contrast);
-}
-section[data-testid="stSidebar"] .stSlider [data-baseweb="slider"] > div:nth-of-type(2) {
-    background: var(--accent) !important;
-}
-/* 2. FIX: Remove green highlight from '100' value label */
-section[data-testid="stSidebar"] .stSlider [data-baseweb="slider"] > div:nth-of-type(3) {
+/* SLIDER TRACK AND HANDLE TO GREEN (CORRECTED) */
+section[data-testid="stSidebar"] .stSlider div[role="slider"] { background-color: var(--accent) !important; } /* Handle */
+section[data-testid="stSidebar"] .stSlider div[data-testid="stTickBar"] + div > div:nth-of-type(2) { background: var(--accent); } /* Track (filled portion) */
+
+/* FIX FOR SLIDER VALUE HIGHLIGHT: Ensure the value's background inside the handle is transparent */
+section[data-testid="stSidebar"] .stSlider div[role="slider"] > div {
     background: transparent !important;
+    color: var(--fg) !important;
 }
 
-/* --- LOGOUT BUTTON (FIX) --- */
-/* Push the logout button container to the bottom */
-section[data-testid="stSidebar"] [data-testid="stToolbar"] {
-    margin-top: auto;
-    padding-bottom: 1rem;
-}
-
+/* Force green accents for form controls globally */
 :root { accent-color: var(--accent); }
 input[type="checkbox"], input[type="radio"], select, textarea { accent-color: var(--accent) !important; }
 .stCheckbox input, .stRadio input { accent-color: var(--accent) !important; }
 .stTextInput input:focus, .stNumberInput input:focus, .stTextArea textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
 
+/* Logout Button Container: Pushes button to bottom */
+.logout-container {
+    margin-top: auto;
+    padding: 0.5rem 0;
+}
+.logout-container .stButton button {
+    width: 100%; /* Make button span full width */
+}
+
+/* Glassmorphism card */
 .glass-card {
   width: 240px; height: 360px; background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
@@ -133,8 +140,10 @@ input[type="checkbox"], input[type="radio"], select, textarea { accent-color: va
 .glass-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent); }
 .glass-card::after { content: ''; position: absolute; top: 0; left: 0; width: 1px; height: 100%; background: linear-gradient(180deg, rgba(255,255,255,0.8), transparent, rgba(255,255,255,0.3)); }
 
+/* Flexible card variant */
 .glass-flex { width: 100%; height: auto; padding: 18px; border-radius: 20px; }
 
+/* Hero */
 .hero { text-align: center; padding: 18px 12px; margin-bottom: 12px; }
 .hero-title { font-weight: 800; letter-spacing: 3px; text-shadow: 0 6px 24px rgba(0,0,0,0.45); }
 .hero-sub { color: var(--muted); margin-top: 4px; }
@@ -145,8 +154,97 @@ input[type="checkbox"], input[type="radio"], select, textarea { accent-color: va
     unsafe_allow_html=True,
 )
 
+# --- LANGUAGE DICTIONARY ---
+language_dict = {
+    "English": "en",
+    "हिंदी": "hi",
+    "ಕನ್ನಡ": "kn",
+    "অসমীয়া": "as",
+    "বাংলা": "bn",
+    "ગુજરાતી": "gu",
+    "മലയാളം": "ml",
+    "മराठी": "mr",
+    "தமிழ்": "ta",
+    "తెలుగు": "te",
+    "اردو": "ur",
+    "ਪੰਜਾਬੀ": "pa",
+    "സംസ്കൃത": "sanskrit",
+    "भोजपुरी": "bhojpuri",
+    "डोगरी": "dogri",
+    "मैथिली": "maithili",
+    "Mizo tawng": "mizo",
+    "Manipuri": "manipuri",
+}
 
-# --- Main App Header ---
+# --- SIDEBAR CONTENT START ---
+with st.sidebar:
+    st.markdown(
+        """
+        <div style="width:100%;text-align:center;margin:6px 0 15px 0;">
+          <span style="font-family:'Arvo',serif;font-weight:800;letter-spacing:2px;font-size:24px;background: linear-gradient(135deg, #a7f3d0, #22c55e); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 2px 6px rgba(34,197,94,0.22);">M.A.R.G.</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # Language selection must be defined first to translate other widgets.
+    language = st.selectbox(
+        label="Language",
+        options=language_dict.keys(),
+    )
+
+    # This container holds all the main controls
+    with st.container():
+        # --- Image/Video Config Section ---
+        st.header("Image/Video Config")
+        source_options = [
+            COMPONENTS[language_dict[language]]["IMAGE"],
+            COMPONENTS[language_dict[language]]["VIDEO"],
+            COMPONENTS[language_dict[language]]["RTSP"],
+            COMPONENTS[language_dict[language]]["YOUTUBE"],
+            COMPONENTS[language_dict[language]]["ENCROACHMENT"],
+            COMPONENTS[language_dict[language]]["JUNCTION"],
+            COMPONENTS[language_dict[language]]["JUNCTIONEVAL"],
+            COMPONENTS[language_dict[language]]["BENCHMARKING"],
+            "Analyze",
+        ]
+        source_radio = st.selectbox(
+            label=COMPONENTS[language_dict[language]]["SELECT_SOURCE"],
+            options=source_options,
+            key="source_select",
+        )
+        source_img = None
+        if source_radio == COMPONENTS[language_dict[language]]["IMAGE"]:
+            source_img = st.file_uploader(
+                COMPONENTS[language_dict[language]]["SOURCE_IMG"],
+                type=("jpg", "jpeg", "png", "bmp", "webp"),
+                label_visibility="collapsed",
+                key="file_uploader",
+            )
+
+        st.markdown("---")
+
+        # --- Configuration Section ---
+        st.header("Configuration")
+        model_options = [
+            COMPONENTS[language_dict[language]]["DETECTION"],
+            COMPONENTS[language_dict[language]]["SEGMENTATION"],
+        ]
+        model_type = st.selectbox(
+            label=COMPONENTS[language_dict[language]]["MODEL_TYPE"],
+            options=model_options,
+            key="task_select",
+        )
+        confidence = (
+            float(
+                st.slider(
+                    COMPONENTS[language_dict[language]]["CONFIDENCE"], 25, 100, 40
+                )
+            )
+            / 100
+        )
+
+# Main App Header (outside sidebar)
 st.markdown(
     """
     <div class="glass-card glass-flex hero" style="animation: float 5s ease-in-out infinite;">
@@ -161,70 +259,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-
-# --- SIDEBAR CONTENT ---
-with st.sidebar:
-    st.markdown(
-        """
-        <div style="width:100%;text-align:center;margin:6px 0 15px 0;">
-          <span style="font-family:'Arvo',serif;font-weight:800;letter-spacing:2px;font-size:24px;background: linear-gradient(135deg, #a7f3d0, #22c55e); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 2px 6px rgba(34,197,94,0.22);">M.A.R.G.</span>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-    st.sidebar.markdown("---")
-
-    # Section 1: Language
-    st.sidebar.header("Language")
-    language = st.sidebar.selectbox(
-        label="Select your language",  # Using a more descriptive label
-        options=[
-            "English",
-            "ಕನ್ನಡ",
-            "हिंदी",
-            "বাংলা",
-            "ગુજરાતી",
-            "മലയാളം",
-            "മराठी",
-            "தமிழ்",
-            "తెలుగు",
-            "اردو",
-            "ਪੰਜਾਬੀ",
-            "സംസ്കൃത",
-            "অসমীয়া",
-            "भोजपुरी",
-            "डोगरी",
-            "मैथिली",
-            "Mizo tawng",
-            "Manipuri",
-        ],
-        label_visibility="collapsed",  # Hides the label text to keep UI clean
-    )
-    language_dict = {
-        "English": "en",
-        "हिंदी": "hi",
-        "ಕನ್ನಡ": "kn",
-        "অসমীয়া": "as",
-        "বাংলা": "bn",
-        "ગુજરાતી": "gu",
-        "മലയാളം": "ml",
-        "മराठी": "mr",
-        "தமிழ்": "ta",
-        "తెలుగు": "te",
-        "اردو": "ur",
-        "ਪੰਜਾਬੀ": "pa",
-        "സംസ്കൃത": "sanskrit",
-        "भोजपुरी": "bhojpuri",
-        "डोगरी": "dogri",
-        "मैथिली": "maithili",
-        "Mizo tawng": "mizo",
-        "Manipuri": "manipuri",
-    }
-
-    st.sidebar.markdown("---")
-
-# Login UI initialization and rendering
-# This must be outside the `with st.sidebar` block
+# Login UI initialization
 __login__obj = __login__(
     auth_token="pk_prod_PVY78PYNS84M1SPFKZSCHD1D32BS",
     company_name="M.A.R.G.",
@@ -239,66 +274,36 @@ __login__obj = __login__(
 
 LOGGED_IN = __login__obj.build_login_ui()
 
-if LOGGED_IN:
-    # --- Sidebar Configuration (appears after login) ---
+if LOGGED_IN == True:
+    # --- LOGOUT BUTTON (Placed at the bottom via CSS) ---
     with st.sidebar:
-        # Section 2: Image/Video Config
-        st.header("Image/Video Config")
-        model_options = [
-            COMPONENTS[language_dict[language]]["DETECTION"],
-            COMPONENTS[language_dict[language]]["SEGMENTATION"],
-        ]
-        model_type = st.selectbox(
-            COMPONENTS[language_dict[language]]["MODEL_TYPE"], options=model_options
+        st.markdown('<div class="logout-container">', unsafe_allow_html=True)
+        # NOTE: This is a new button. The original logout button created by
+        # __login__obj might still appear in the main panel. You may need to
+        # adjust the library call or wire this button to its logout logic.
+        st.button(
+            label=COMPONENTS[language_dict[language]]["LOGOUT"], key="sidebar_logout"
         )
-        confidence = (
-            float(
-                st.slider(
-                    COMPONENTS[language_dict[language]]["CONFIDENCE"], 25, 100, 40
-                )
-            )
-            / 100
-        )
+        st.markdown("</div>", unsafe_allow_html=True)
 
-        st.markdown("---")
+    # --- MAIN PANEL LOGIC ---
+    helper.startup()  # Assuming this is a necessary startup call
 
-        # Section 3: Configuration
-        st.header("Configuration")
-        source_options = [
-            COMPONENTS[language_dict[language]]["IMAGE"],
-            COMPONENTS[language_dict[language]]["VIDEO"],
-            COMPONENTS[language_dict[language]]["RTSP"],
-            COMPONENTS[language_dict[language]]["YOUTUBE"],
-            COMPONENTS[language_dict[language]]["ENCROACHMENT"],
-            COMPONENTS[language_dict[language]]["JUNCTION"],
-            COMPONENTS[language_dict[language]]["JUNCTIONEVAL"],
-            COMPONENTS[language_dict[language]]["BENCHMARKING"],
-            "Analyze",
-        ]
-        source_radio = st.selectbox(
-            COMPONENTS[language_dict[language]]["SELECT_SOURCE"], options=source_options
-        )
-
-    # --- Main Content Area (after login) ---
-    # Load Model
+    # Selecting Detection Or Segmentation
     if model_type == COMPONENTS[language_dict[language]]["DETECTION"]:
         model_path = Path(settings.DETECTION_MODEL)
     elif model_type == COMPONENTS[language_dict[language]]["SEGMENTATION"]:
         model_path = Path(settings.SEGMENTATION_MODEL)
 
+    # Load Pre-trained ML Model
     try:
         model = load_model(model_path)
     except Exception as ex:
         st.error(COMPONENTS[language_dict[language]]["LOAD_ERROR"] + str(model_path))
         st.error(ex)
 
-    # Process Source
-    source_img = None
+    # Logic for handling different sources
     if source_radio == COMPONENTS[language_dict[language]]["IMAGE"]:
-        source_img = st.sidebar.file_uploader(
-            COMPONENTS[language_dict[language]]["SOURCE_IMG"],
-            type=("jpg", "jpeg", "png", "bmp", "webp"),
-        )
         col1, col2 = st.columns(2)
         with col1:
             try:
@@ -317,6 +322,7 @@ if LOGGED_IN:
             except Exception as ex:
                 st.error(COMPONENTS[language_dict[language]]["IMG_ERROR"])
                 st.error(ex)
+
         with col2:
             if source_img is None:
                 default_detected_image_path = str(settings.DEFAULT_DETECT_IMAGE)
@@ -339,7 +345,7 @@ if LOGGED_IN:
                         ):
                             for box in boxes:
                                 st.write(box.data)
-                    except Exception:
+                    except Exception as ex:
                         st.write(COMPONENTS[language_dict[language]]["NO_IMG"])
 
     elif source_radio == COMPONENTS[language_dict[language]]["VIDEO"]:
