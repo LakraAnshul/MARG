@@ -73,9 +73,6 @@ section[data-testid="stSidebar"] > div:first-child {
   border-right: 1px solid var(--border);
   backdrop-filter: blur(12px) saturate(120%);
   -webkit-backdrop-filter: blur(12px) saturate(120%);
-  /* Flexbox to push logout button to the bottom */
-  display: flex;
-  flex-direction: column;
 }
 
 section[data-testid="stSidebar"] .stButton button,
@@ -101,30 +98,11 @@ section[data-testid="stSidebar"] .stTextArea textarea {
     border-radius: 12px;
 }
 
-/* SLIDER TRACK AND HANDLE TO GREEN (CORRECTED) */
-section[data-testid="stSidebar"] .stSlider div[role="slider"] { background-color: var(--accent) !important; } /* Handle */
-section[data-testid="stSidebar"] .stSlider div[data-testid="stTickBar"] + div > div:nth-of-type(2) { background: var(--accent); } /* Track (filled portion) */
-
-/* FIX FOR SLIDER VALUE HIGHLIGHT: Ensure the value's background inside the handle is transparent */
-section[data-testid="stSidebar"] .stSlider div[role="slider"] > div {
-    background: transparent !important;
-    color: var(--fg) !important;
-}
-
 /* Force green accents for form controls globally */
 :root { accent-color: var(--accent); }
 input[type="checkbox"], input[type="radio"], select, textarea { accent-color: var(--accent) !important; }
 .stCheckbox input, .stRadio input { accent-color: var(--accent) !important; }
 .stTextInput input:focus, .stNumberInput input:focus, .stTextArea textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-
-/* Logout Button Container: Pushes button to bottom */
-.logout-container {
-    margin-top: auto;
-    padding: 0.5rem 0;
-}
-.logout-container .stButton button {
-    width: 100%; /* Make button span full width */
-}
 
 /* Glassmorphism card */
 .glass-card {
@@ -176,7 +154,7 @@ language_dict = {
     "Manipuri": "manipuri",
 }
 
-# --- SIDEBAR CONTENT START ---
+# --- SIDEBAR CONTENT & AUTHENTICATION ---
 with st.sidebar:
     st.markdown(
         """
@@ -187,14 +165,47 @@ with st.sidebar:
         unsafe_allow_html=True,
     )
 
-    # Language selection must be defined first to translate other widgets.
+    # The language must be selected before the login UI is created
     language = st.selectbox(
         label="Language",
         options=language_dict.keys(),
     )
 
-    # This container holds all the main controls
-    with st.container():
+    # Instantiate and render the login/logout UI component here
+    __login__obj = __login__(
+        auth_token="pk_prod_PVY78PYNS84M1SPFKZSCHD1D32BS",
+        company_name="M.A.R.G.",
+        width=200,
+        height=250,
+        logout_button_name=COMPONENTS[language_dict[language]]["LOGOUT"],
+        hide_menu_bool=False,
+        hide_footer_bool=False,
+        lottie_url="https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json",
+        language=language_dict[language],
+    )
+    LOGGED_IN = __login__obj.build_login_ui()
+
+
+# The rest of the app is only rendered if the user is logged in
+if LOGGED_IN:
+    # --- MAIN APP HEADER ---
+    st.markdown(
+        """
+        <div class="glass-card glass-flex hero" style="animation: float 5s ease-in-out infinite;">
+          <h1 class="hero-title" style="font-size: clamp(28px, 5vw, 56px); margin: 0;">
+            <span style="background: linear-gradient(135deg, #ffffff, #dcdcdc 60%); -webkit-background-clip: text; background-clip: text; color: transparent;">
+              <b>M.A.R.G.</b>
+            </span>
+          </h1>
+          <div class="hero-sub">Modern Analytics for Road Guidance</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # --- SIDEBAR CONFIGURATION (appears after login) ---
+    with st.sidebar:
+        st.markdown("---")
         # --- Image/Video Config Section ---
         st.header("Image/Video Config")
         source_options = [
@@ -224,7 +235,7 @@ with st.sidebar:
 
         st.markdown("---")
 
-        # --- Configuration Section ---
+        # --- Model Configuration Section ---
         st.header("Configuration")
         model_options = [
             COMPONENTS[language_dict[language]]["DETECTION"],
@@ -243,48 +254,6 @@ with st.sidebar:
             )
             / 100
         )
-
-# Main App Header (outside sidebar)
-st.markdown(
-    """
-    <div class="glass-card glass-flex hero" style="animation: float 5s ease-in-out infinite;">
-      <h1 class="hero-title" style="font-size: clamp(28px, 5vw, 56px); margin: 0;">
-        <span style="background: linear-gradient(135deg, #ffffff, #dcdcdc 60%); -webkit-background-clip: text; background-clip: text; color: transparent;">
-          <b>M.A.R.G.</b>
-        </span>
-      </h1>
-      <div class="hero-sub">Modern Analytics for Road Guidance</div>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
-
-# Login UI initialization
-__login__obj = __login__(
-    auth_token="pk_prod_PVY78PYNS84M1SPFKZSCHD1D32BS",
-    company_name="M.A.R.G.",
-    width=200,
-    height=250,
-    logout_button_name=COMPONENTS[language_dict[language]]["LOGOUT"],
-    hide_menu_bool=False,
-    hide_footer_bool=False,
-    lottie_url="https://assets2.lottiefiles.com/packages/lf20_jcikwtux.json",
-    language=language_dict[language],
-)
-
-LOGGED_IN = __login__obj.build_login_ui()
-
-if LOGGED_IN == True:
-    # --- LOGOUT BUTTON (Placed at the bottom via CSS) ---
-    with st.sidebar:
-        st.markdown('<div class="logout-container">', unsafe_allow_html=True)
-        # NOTE: This is a new button. The original logout button created by
-        # __login__obj might still appear in the main panel. You may need to
-        # adjust the library call or wire this button to its logout logic.
-        st.button(
-            label=COMPONENTS[language_dict[language]]["LOGOUT"], key="sidebar_logout"
-        )
-        st.markdown("</div>", unsafe_allow_html=True)
 
     # --- MAIN PANEL LOGIC ---
     helper.startup()  # Assuming this is a necessary startup call
